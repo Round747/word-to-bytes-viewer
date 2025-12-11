@@ -16,8 +16,8 @@ p {
 
 .bit,
 .bit2 {
-    width: 2em;
-    height: 2em;
+    width: 2.5em;
+    height: 2.5em;
     background-color: lightgrey;
     border-radius: 0.25em;
     margin: 0.5em;
@@ -75,5 +75,29 @@ p {
     .wordholder {
         flex-direction: column;
         /* make it somewhat usable for mobile */
+        padding-top: 2em;
+        justify-content: space-between;
+    }
+
+    .bitholder,
+    .bitholder2 {
+        display: flex;
+        flex: 0 1 auto;
+        /* flex-flow: row wrap; */
+        flex-wrap: wrap-reverse;
+    }
+
+    .bit,
+    .bit2 {
+        flex-basis: 20%;
+        flex-grow: 0;
+        flex-shrink: 1;
+        aspect-ratio: 1;
+        height: 100%;
+    }
+
+    h1 {
+        margin-left: 0.5em;
+        margin-right: 0.5em;
     }
 }
