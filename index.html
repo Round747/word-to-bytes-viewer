@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word, Byte & Bit to decimal</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="whole">
+        <h1>Word, Byte & Bit to decimal</h1>
+        <p>Lets you view words with the values of their bytes and bits. Can set both the bits and the decimal values to
+            change the result.</p>
+        <input type="number" class="total" placeholder="decimal value" onchange="SetAllBitsFromTotalDecimal()"
+            id="total" min="0">
+
+        <div class="wordholder">
+            <div class="byteholder">
+
+                <input type="number" class="number" placeholder="decimal value" onchange="SetBitsFromDecimal(1)"
+                    min="0">
+                <div class="bitholder">
+                    <div class="bit off" onclick="ToggleBit(0,1)"></div>
+                    <div class="bit off" onclick="ToggleBit(1,1)"></div>
+                    <div class="bit off" onclick="ToggleBit(2,1)"></div>
+                    <div class="bit off" onclick="ToggleBit(3,1)"></div>
+                    <div class="bit off" onclick="ToggleBit(4,1)"></div>
+                    <div class="bit off" onclick="ToggleBit(5,1)"></div>
+                    <div class="bit off" onclick="ToggleBit(6,1)"></div>
+                    <div class="bit off" onclick="ToggleBit(7,1)"></div>
+                </div>
+            </div>
+            <div class="byteholder">
+
+                <input type="number" class="number2" placeholder="decimal value" onchange="SetBitsFromDecimal(2)"
+                    min="0">
+                <div class="bitholder2">
+                    <div class="bit off" onclick="ToggleBit(0,2)"></div>
+                    <div class="bit off" onclick="ToggleBit(1,2)"></div>
+                    <div class="bit off" onclick="ToggleBit(2,2)"></div>
+                    <div class="bit off" onclick="ToggleBit(3,2)"></div>
+                    <div class="bit off" onclick="ToggleBit(4,2)"></div>
+                    <div class="bit off" onclick="ToggleBit(5,2)"></div>
+                    <div class="bit off" onclick="ToggleBit(6,2)"></div>
+                    <div class="bit off" onclick="ToggleBit(7,2)"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+<script>
+
+    holder = document.querySelector(".bitholder");
+    holder2 = document.querySelector(".bitholder2");
+
+    number = document.querySelector(".number");
+    number2 = document.querySelector(".number2");
+
+    total = document.querySelector(".total");
+
+
+    number.value = 0;
+    number2.value = 0;
+    total.value = 0;
+
+    function SetTotalDecimalValue() {
+        byte1 = GetByteDecimalValue(1);
+        byte2 = GetByteDecimalValue(2);
+
+        byte1 = byte1 << 8;
+
+        value = byte1 | byte2;
+
+        total.value = value;
+
+
+    }
+
+    function SetAllBitsFromTotalDecimal() {
+
+        if (total.value > 65535) total.value = 65535;
+        byte1 = total.value >>> 8;
+
+        number.value = byte1;
+
+        byte2 = total.value &= 0b0000000011111111;
+
+        number2.value = byte2;
+
+        SetBitsFromDecimal(2);
+        SetBitsFromDecimal(1);
+    }
+
+    function GetByteDecimalValue(byte) {
+        decimal = 0;
+
+        for (let i = 0; i < holder.children.length; i++) {
+
+            if (byte == 1) bit = holder.children[i];
+            else bit = holder2.children[i];
+
+            if (bit.classList.contains("on")) {
+                decimal = decimal << 1;
+                decimal |= 0b00000001;
+            }
+            else {
+                decimal = decimal << 1;
+            }
+        }
+
+        return decimal;
+    }
+
+    function ToggleBit(number, byte) {
+        if (byte == 1) bit = holder.children[number];
+        else bit = holder2.children[number];
+
+        if (bit.classList.contains("on")) {
+            bit.classList.remove("on");
+            bit.classList.add("off");
+        }
+        else {
+            bit.classList.remove("off");
+            bit.classList.add("on");
+        }
+
+        SetDecimalFromBits(byte);
+    }
+
+    function SetDecimalFromBits(byte) {
+
+        let decimal = 0;
+
+        decimal = GetByteDecimalValue(byte);
+
+        if (byte == 1) number.value = decimal;
+        else number2.value = decimal;
+
+        SetTotalDecimalValue();
+    }
+
+    function SetBitsFromDecimal(byte) {
+        if (number.value == 0) number.value = 0;
+        if (number.value > 255) number.value = 255;
+
+        if (byte == 1) decimal = number.value;
+        else decimal = number2.value;
+
+        for (let i = 0; i < holder.children.length; i++) {
+            if (byte == 1) bit = holder.children[7 - i];
+            else bit = holder2.children[7 - i];
+
+            if ((decimal & (1 << i)) == (1 << i)) { // if bit is on
+
+                if (bit.classList.contains("off")) {
+                    bit.classList.remove("off");
+                    bit.classList.add("on");
+                }
+            }
+            else {
+                if (bit.classList.contains("on")) {
+                    bit.classList.remove("on");
+                    bit.classList.add("off");
+                }
+            }
+        }
+
+        SetTotalDecimalValue();
+
+    }
+</script>
+
+</html>
