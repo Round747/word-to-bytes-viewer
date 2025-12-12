@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Word, Byte & Bit to decimal</title>
+    <title>Word & Byte <-> to decimal</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -146,6 +146,9 @@
     function SetBitsFromDecimal(byte) {
         if (number.value == 0) number.value = 0;
         if (number.value > 255) number.value = 255;
+
+        if (number2.value == 0) number2.value = 0;
+        if (number2.value > 255) number2.value = 255;
 
         if (byte == 1) decimal = number.value;
         else decimal = number2.value;
