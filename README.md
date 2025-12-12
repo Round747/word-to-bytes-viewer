@@ -1,4 +1,4 @@
-# Word, Byte & Bit To Decimal
+# Word & Byte <-> Decimal
 Simple web tool that lets you view words with the values of their bytes and bits. Can set both the bits and the decimal values to change the result.
 
 I wrote this in a evening because I needed something like this for a project I'm working on.
